@@ -1,0 +1,9 @@
+export type Role = 'dealer' | 'staff_admin' | 'main_admin';
+export type Member = {id:string;email:string;name:string;business:string;phone:string;address:string;role:Role;status:string;created:string};
+export type Product = {id:string;row:number;name:string;description:string;category:string;brand:string;image:string;unit:string;unitNote:string;representative:boolean;active?:number};
+export type Line = {productId:string;quantity:number;name:string;unit:string};
+export type Order = {id:string;user_id:string;items:Line[];consignee:string;phone:string;destination:string;reference:string;notes:string;status:string;transporter:string;consignment:string;created:string;updated:string;business?:string;dealer_name?:string;dealer_email?:string};
+export type Event = {id:string;order_id:string|null;actor:string;kind:string;message:string;created:string};
+export type Inventory = {product_id:string;quantity:number|null;active:number;updated:string};
+export type PortalState = {identity:{userId:string;email:string}|null;user:Member|null;products:Product[];orders:Order[];dealers:Member[];inventory:Inventory[];events:Event[]};
+export const orderStatuses = ['Submitted','Under review','Confirmed','Preparing','Dispatched','Completed','Declined','Cancelled'];

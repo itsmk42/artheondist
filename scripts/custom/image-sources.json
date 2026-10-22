@@ -1,0 +1,38 @@
+{
+  "gorewatt-panel": {
+    "url": "https://gorewatt.com/wp-content/uploads/2026/07/GORewatt-Panel-2.png",
+    "representative": true
+  },
+  "microtek-panel": {
+    "url": "https://gorewatt.com/wp-content/uploads/2026/07/Microtek-Panel-1.png",
+    "representative": true
+  },
+  "microtek-inverter": {
+    "url": "https://gorewatt.com/wp-content/uploads/2026/07/Microtek-Inverter-2.png",
+    "representative": true
+  },
+  "hyxi-inverter": {
+    "url": "https://gorewatt.com/wp-content/uploads/2026/07/Hyxi-Power-Inverter-3.png",
+    "representative": true
+  },
+  "structure": {
+    "url": "https://gorewatt.com/wp-content/uploads/2026/02/mrganso-photovoltaic-system-2742302_1280.webp",
+    "representative": true
+  },
+  "cable": {
+    "url": "https://hilitebazaar.com/wp-content/uploads/2024/03/solar-cable.jpg",
+    "representative": true
+  },
+  "earthing": {
+    "url": "https://gorewatt.com/wp-content/uploads/2026/02/Earthing-Strips.webp",
+    "representative": true
+  },
+  "hero": {
+    "url": "https://gorewatt.com/wp-content/uploads/2026/02/webandi-photovoltaic-2803889_1280.webp",
+    "representative": true
+  },
+  "battery": {
+    "url": "https://cms.microtek.in/upload/product/51-1782481083561.jpg",
+    "representative": true
+  }
+}
