@@ -6,7 +6,8 @@ config({path:'.env.local',quiet:true});
 const base='http://localhost:3037';
 if(!process.env.CLERK_SECRET_KEY?.startsWith('sk_test_'))throw new Error('Integration checks require a Clerk development instance.');
 const clerk=createClerkClient({secretKey:process.env.CLERK_SECRET_KEY});
-const pool=new Pool({connectionString:process.env.DATABASE_URL,max:2});
+const connection=new URL(process.env.DATABASE_URL!);connection.searchParams.set('sslmode','verify-full');
+const pool=new Pool({connectionString:connection.toString(),max:2});
 const created:string[]=[];const prefix='artheon-qa-'+Date.now();let passed=0;let stockFixture=false;
 function check(name:string,condition:unknown){assert.ok(condition,name);passed++;console.log('PASS',name);}
 async function identity(suffix:string,verified=true){const u=await clerk.users.createUser({emailAddress:[`${prefix}-${suffix}+clerk_test@example.com`],emailAddressIdentificationStatus:[verified?'verified':'reserved'],firstName:'Integration',lastName:'Test',skipPasswordRequirement:true});created.push(u.id);const session=await clerk.sessions.createSession({userId:u.id});const token=await clerk.sessions.getToken(session.id);return {id:u.id,token:token.jwt};}

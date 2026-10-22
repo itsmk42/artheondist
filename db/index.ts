@@ -3,7 +3,7 @@ import { Pool, type QueryResultRow } from 'pg';
 import { attachDatabasePool } from '@vercel/functions';
 let pool:Pool|undefined;
 export function getPool(){
- if(!pool){if(!process.env.DATABASE_URL)throw new Error('Database is not configured.');pool=new Pool({connectionString:process.env.DATABASE_URL,max:5,idleTimeoutMillis:5000,connectionTimeoutMillis:15000});attachDatabasePool(pool);}
+ if(!pool){if(!process.env.DATABASE_URL)throw new Error('Database is not configured.');const connection=new URL(process.env.DATABASE_URL);connection.searchParams.set('sslmode','verify-full');pool=new Pool({connectionString:connection.toString(),max:5,idleTimeoutMillis:5000,connectionTimeoutMillis:15000});attachDatabasePool(pool);}
  return pool;
 }
 // A small prepared-query adapter preserves the portal's parameterized SQL and atomic batches.
