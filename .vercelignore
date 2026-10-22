@@ -1,0 +1,7 @@
+.git
+.agents
+.claude
+outputs
+.env*
+README.md
+scripts/check-postgres.ts

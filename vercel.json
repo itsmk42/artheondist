@@ -1,0 +1,1 @@
+{"framework":"nextjs","regions":["sin1"],"installCommand":"npm ci --no-audit --no-fund","buildCommand":"npm run build"}

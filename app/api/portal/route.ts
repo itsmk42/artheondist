@@ -1,17 +1,18 @@
-import { env } from 'cloudflare:workers';
-import { getChatGPTUser } from '../../chatgpt-auth';
+import { database } from '../../../db';
+import { getPortalIdentity } from '../../../lib/auth';
 import catalogue from '../../../lib/catalogue.json';
 import type { Member, Line } from '../../../lib/types';
 export const dynamic='force-dynamic';
+export const runtime='nodejs';
 const adminEmail='ballery619@gmail.com';
 const products=new Map(catalogue.map(p=>[p.id,p]));
 const json=(data:unknown,status=200)=>Response.json(data,{status,headers:{'Cache-Control':'no-store'}});
 const now=()=>new Date().toISOString();
-const db=()=>{if(!env.DB)throw new Error('Storage is unavailable. Please try again shortly.');return env.DB;};
+const db=()=>database;
 const event=(actor:string,kind:string,message:string,order:string|null=null)=>db().prepare('INSERT INTO events (id,order_id,actor,kind,message,created) VALUES (?,?,?,?,?,?)').bind(crypto.randomUUID(),order,actor,kind,message,now());
 function text(value:unknown,max=300,required=false):string{if(typeof value!=='string'||value.trim().length>max||(required&&!value.trim()))throw new Error('Please complete the required fields within the allowed length.');return value.trim();}
-async function context(){const identity=await getChatGPTUser();if(!identity)return {identity:null,user:null};
- if(identity.email?.toLowerCase()===adminEmail)await db().prepare("INSERT OR IGNORE INTO users (id,email,name,business,phone,address,role,status,created) VALUES (?,?,?,?,?,?,'main_admin','approved',?)").bind(identity.userId,identity.email,'Main Admin','Artheon Energy','','',now()).run();
+async function context(){const identity=await getPortalIdentity();if(!identity)return {identity:null,user:null};
+ if(identity.email?.toLowerCase()===adminEmail)await db().prepare("INSERT INTO users (id,email,name,business,phone,address,role,status,created) VALUES (?,?,?,?,?,?,'main_admin','approved',?) ON CONFLICT(id) DO NOTHING").bind(identity.userId,identity.email,'Main Admin','Artheon Energy','','',now()).run();
  const user=await db().prepare('SELECT * FROM users WHERE id=?').bind(identity.userId).first<Member>();return {identity,user};}
 function requireAdmin(user:Member|null,main=false){if(!user||user.status!=='approved'||(main?user.role!=='main_admin':!['main_admin','staff_admin'].includes(user.role)))throw new Error('You do not have permission for this action.');}
 export async function GET(){try{

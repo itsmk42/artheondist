@@ -43,3 +43,11 @@ yarn-error.log*
 
 # OS metadata
 .DS_Store
+
+# Vercel local linkage and downloaded environment
+.vercel/
+.vercel
+
+!.env.example
+/skills-lock.json
+/.claude/
